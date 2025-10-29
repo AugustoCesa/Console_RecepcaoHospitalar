@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Augusto\\Desktop\\Trabalho Edicarsia e Manseira\\RecepcaoHospitalar\\RecepcaoHospitalar\\RecepcaoHospitalar.csproj",
+      "projectUniqueName": "C:\\Users\\Augusto\\Desktop\\Trabalho Edicarsia e Manseira\\Console_RecepcaoHospitalar\\RecepcaoHospitalar\\RecepcaoHospitalar\\RecepcaoHospitalar.csproj",
       "projectName": "RecepcaoHospitalar",
-      "projectPath": "C:\\Users\\Augusto\\Desktop\\Trabalho Edicarsia e Manseira\\RecepcaoHospitalar\\RecepcaoHospitalar\\RecepcaoHospitalar.csproj",
+      "projectPath": "C:\\Users\\Augusto\\Desktop\\Trabalho Edicarsia e Manseira\\Console_RecepcaoHospitalar\\RecepcaoHospitalar\\RecepcaoHospitalar\\RecepcaoHospitalar.csproj",
       "packagesPath": "C:\\Users\\Augusto\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Augusto\\Desktop\\Trabalho Edicarsia e Manseira\\RecepcaoHospitalar\\RecepcaoHospitalar\\obj\\",
+      "outputPath": "C:\\Users\\Augusto\\Desktop\\Trabalho Edicarsia e Manseira\\Console_RecepcaoHospitalar\\RecepcaoHospitalar\\RecepcaoHospitalar\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Augusto\\AppData\\Roaming\\NuGet\\NuGet.Config"

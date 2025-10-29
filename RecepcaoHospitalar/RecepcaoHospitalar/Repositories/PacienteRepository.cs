@@ -59,9 +59,9 @@ namespace SistemaDeConsultas.Repositories
         }
 
         // Atualiza automaticamente o status dos pacientes com base em regras simples:
-        // - Se tiver 2 ou mais ausências (StatusConsulta.Ausente) nos últimos 365 dias => Suspenso
-        // - Se não tiver consultas (agendadas ou concluídas) nos últimos 365 dias => Inativo
-        // - Caso contrário => Ativo
+        // - Se tiver 2 ou mais ausências (StatusConsulta.Ausente) nos últimos 365 dias = Suspenso
+        // - Se não tiver consultas (agendadas ou concluídas) nos últimos 365 dias = Inativo
+        // - Caso contrário = Ativo
         public static void AtualizarStatusAutomatico()
         {
             var todas = ConsultaRepository.ListarTodas();

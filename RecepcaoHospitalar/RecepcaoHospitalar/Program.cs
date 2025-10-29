@@ -10,7 +10,7 @@ namespace SistemaDeConsultas
     {
         public static void Main(string[] args)
         {
-            PrintHeader("Bem-vindo ao Sistema de Consultas Médicas");
+            PrintHeader("Sistema de Recepção Hospitalar");
             InicializarDados(); // Pré-cadastra dados para teste
 
             bool executando = true;
@@ -167,7 +167,7 @@ namespace SistemaDeConsultas
                 // 2. Selecionar Especialidade (RF-011)
                 Especialidade espDesejada = SelecionarEspecialidade("Qual especialidade você busca?");
 
-                // 3. Listar e Selecionar Médico (RF-011)
+                // 3 Listar e Selecionar Médico (RF-011)
                 var medicosDisponiveis = MedicoRepository.ListarPorEspecialidade(espDesejada);
                 if (medicosDisponiveis.Count == 0)
                 {
@@ -202,7 +202,6 @@ namespace SistemaDeConsultas
                 // 5. Duração
                 int duracao = LerInteiro("Duração em minutos (ex: 30): ");
 
-                // RF-014: Duração > 0
                 if (duracao <= 0)
                 {
                     Console.WriteLine("ERRO: A duração deve ser maior que zero.");
@@ -212,7 +211,7 @@ namespace SistemaDeConsultas
                 DateTime dataHoraFim = dataHoraInicio.AddMinutes(duracao);
                 string motivo = LerStringNaoVazia("Motivo da consulta: ");
 
-                // 6. Verificar Conflitos (RF-015, RF-016)
+                // 6. Verificar Conflitos
                 bool haConflito = AgendamentoService.VerificarConflito(medicoId, dataHoraInicio, dataHoraFim);
                 if (haConflito)
                 {
@@ -642,7 +641,7 @@ namespace SistemaDeConsultas
         }
 
 
-        // --- MÉTODOS AUXILIARES DE UI ---
+        // --- MÉTODOS AUXILIARES --
 
         private static void InicializarDados()
         {
@@ -656,8 +655,7 @@ namespace SistemaDeConsultas
             
             Console.WriteLine("Dados iniciais (médicos e pacientes) carregados para teste.");
         }
-
-        // Pequenos helpers de UI para decorar o console
+//Decoração
         private static void PrintHeader(string title)
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
