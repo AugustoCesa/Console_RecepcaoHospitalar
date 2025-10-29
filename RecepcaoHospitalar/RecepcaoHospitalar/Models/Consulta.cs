@@ -10,7 +10,6 @@ namespace SistemaDeConsultas.Models
         public DateTime DataHoraInicio { get; set; }
         public int DuracaoMinutos { get; set; }
 
-        // Propriedade calculada para facilitar a verificação de conflitos
         public DateTime DataHoraFim => DataHoraInicio.AddMinutes(DuracaoMinutos);
 
         public StatusConsulta Status { get; set; }
