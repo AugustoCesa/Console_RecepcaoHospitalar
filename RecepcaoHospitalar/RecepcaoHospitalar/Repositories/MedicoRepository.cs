@@ -27,6 +27,19 @@ namespace SistemaDeConsultas.Repositories
             return _medicos;
         }
 
+        // Buscas padronizadas
+        public static List<Medico> BuscarPorNome(string nomeParcial)
+        {
+            if (string.IsNullOrWhiteSpace(nomeParcial)) return new List<Medico>();
+            return _medicos.Where(m => m.Nome != null && m.Nome.ToLower().Contains(nomeParcial.Trim().ToLower())).ToList();
+        }
+
+        public static Medico ObterPorCRM(string crm)
+        {
+            if (string.IsNullOrWhiteSpace(crm)) return null;
+            return _medicos.FirstOrDefault(m => m.CRM == crm);
+        }
+
         // RF-011
         public static List<Medico> ListarPorEspecialidade(Especialidade especialidade)
         {

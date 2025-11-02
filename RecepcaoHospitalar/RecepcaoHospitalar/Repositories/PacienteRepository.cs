@@ -58,6 +58,29 @@ namespace SistemaDeConsultas.Repositories
             return _pacientes;
         }
 
+        // Buscas padronizadas
+        public static List<Paciente> BuscarPorNome(string nomeParcial)
+        {
+            if (string.IsNullOrWhiteSpace(nomeParcial)) return new List<Paciente>();
+            return _pacientes.Where(p => p.Nome != null && p.Nome.ToLower().Contains(nomeParcial.Trim().ToLower())).ToList();
+        }
+
+        public static List<Paciente> BuscarPorTelefone(string telefoneParcial)
+        {
+            if (string.IsNullOrWhiteSpace(telefoneParcial)) return new List<Paciente>();
+            return _pacientes.Where(p => p.Telefone != null && p.Telefone.ToLower().Contains(telefoneParcial.Trim().ToLower())).ToList();
+        }
+
+        public static List<Paciente> BuscarPorStatus(StatusPaciente status)
+        {
+            return _pacientes.Where(p => p.Status == status).ToList();
+        }
+
+        public static List<Paciente> BuscarPorEspecialidade(Especialidade especialidade)
+        {
+            return _pacientes.Where(p => p.EspecialidadePreferida == especialidade).ToList();
+        }
+
         // Atualiza automaticamente o status dos pacientes com base em regras simples:
         // - Se tiver 2 ou mais ausências (StatusConsulta.Ausente) nos últimos 365 dias = Suspenso
         // - Se não tiver consultas (agendadas ou concluídas) nos últimos 365 dias = Inativo

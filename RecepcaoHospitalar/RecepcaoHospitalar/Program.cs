@@ -36,15 +36,6 @@ namespace SistemaDeConsultas
                     case "5":
                         GerarRelatorios();
                         break;
-                    case "6":
-                        ListarPacientes();
-                        break;
-                    case "7":
-                        ListarMedicos();
-                        break;
-                    case "8":
-                        ListarConsultas();
-                        break;
                     case "0":
                         executando = false;
                         break;
@@ -67,8 +58,7 @@ namespace SistemaDeConsultas
             Console.ResetColor();
             Console.WriteLine(" 1. Gerenciar Pacientes   2. Gerenciar Médicos");
             Console.WriteLine(" 3. Agendar Consulta      4. Gerenciar Consultas");
-            Console.WriteLine(" 5. Relatórios            6. Listar Pacientes");
-            Console.WriteLine(" 7. Listar Médicos        8. Listar Consultas");
+            Console.WriteLine(" 5. Relatórios                                 ");
             Console.WriteLine(" 0. Sair");
             Console.Write("Escolha uma opção: ");
         }
@@ -280,6 +270,118 @@ namespace SistemaDeConsultas
             }
         }
 
+        private static void BuscarPaciente()
+        {
+            PrintHeader("Buscar Paciente");
+            Console.WriteLine("1. Por ID");
+            Console.WriteLine("2. Por Nome");
+            Console.WriteLine("3. Por CPF");
+            Console.WriteLine("4. Por Telefone");
+            Console.WriteLine("5. Por Status");
+            Console.WriteLine("6. Por Especialidade Preferida");
+            Console.WriteLine("0. Voltar");
+
+            string opc = Console.ReadLine() ?? "";
+            switch (opc)
+            {
+                case "1":
+                    int id = LerInteiro("Digite o ID: ");
+                    var p = PacienteRepository.ObterPorId(id);
+                    if (p == null) PrintInfo("Paciente não encontrado."); else Console.WriteLine($"ID: {p.Id} | Nome: {p.Nome} | CPF: {p.CPF} | Tel: {p.Telefone} | Status: {p.Status}");
+                    break;
+                case "2":
+                    string nome = LerStringNaoVazia("Nome (ou parte do nome): ");
+                    var porNome = PacienteRepository.BuscarPorNome(nome);
+                    ExibirListaPacientes(porNome);
+                    break;
+                case "3":
+                    string cpf = LerStringNaoVazia("CPF: ");
+                    var porCpf = PacienteRepository.ObterPorCpf(cpf);
+                    if (porCpf == null) PrintInfo("Paciente não encontrado."); else Console.WriteLine($"ID: {porCpf.Id} | Nome: {porCpf.Nome} | CPF: {porCpf.CPF} | Tel: {porCpf.Telefone} | Status: {porCpf.Status}");
+                    break;
+                case "4":
+                    string tel = LerStringNaoVazia("Telefone (ou parte): ");
+                    var porTel = PacienteRepository.BuscarPorTelefone(tel);
+                    ExibirListaPacientes(porTel);
+                    break;
+                case "5":
+                    var vals = Enum.GetValues<StatusPaciente>();
+                    for (int i = 0; i < vals.Length; i++) Console.WriteLine($"{i} - {vals[i]}");
+                    int idx = LerInteiro("Escolha o número do status: ");
+                    if (idx >= 0 && idx < vals.Length)
+                    {
+                        var porStatus = PacienteRepository.BuscarPorStatus(vals[idx]);
+                        ExibirListaPacientes(porStatus);
+                    }
+                    else PrintError("Status inválido.");
+                    break;
+                case "6":
+                    var esp = SelecionarEspecialidade("Escolha a especialidade preferida:");
+                    var porEsp = PacienteRepository.BuscarPorEspecialidade(esp);
+                    ExibirListaPacientes(porEsp);
+                    break;
+                case "0":
+                    return;
+                default:
+                    PrintError("Opção inválida.");
+                    break;
+            }
+        }
+
+        private static void BuscarMedico()
+        {
+            PrintHeader("Buscar Médico");
+            Console.WriteLine("1. Por ID");
+            Console.WriteLine("2. Por Nome");
+            Console.WriteLine("3. Por CRM");
+            Console.WriteLine("4. Por Especialidade");
+            Console.WriteLine("0. Voltar");
+
+            string opc = Console.ReadLine() ?? "";
+            switch (opc)
+            {
+                case "1":
+                    int id = LerInteiro("Digite o ID: ");
+                    var m = MedicoRepository.ObterPorId(id);
+                    if (m == null) PrintInfo("Médico não encontrado."); else Console.WriteLine($"ID: {m.Id} | Nome: {m.Nome} | CRM: {m.CRM} | Especialidade: {m.Especialidade}");
+                    break;
+                case "2":
+                    string nome = LerStringNaoVazia("Nome (ou parte do nome): ");
+                    var porNome = MedicoRepository.BuscarPorNome(nome);
+                    if (porNome.Count == 0) PrintInfo("Nenhum médico encontrado."); else foreach (var mm in porNome) Console.WriteLine($"ID: {mm.Id} | Nome: {mm.Nome} | CRM: {mm.CRM} | Esp: {mm.Especialidade}");
+                    break;
+                case "3":
+                    string crm = LerStringNaoVazia("CRM: ");
+                    var porCrm = MedicoRepository.ObterPorCRM(crm);
+                    if (porCrm == null) PrintInfo("Médico não encontrado."); else Console.WriteLine($"ID: {porCrm.Id} | Nome: {porCrm.Nome} | CRM: {porCrm.CRM} | Esp: {porCrm.Especialidade}");
+                    break;
+                case "4":
+                    var esp = SelecionarEspecialidade("Especialidade:");
+                    var porEsp = MedicoRepository.ListarPorEspecialidade(esp);
+                    if (porEsp.Count == 0) PrintInfo("Nenhum médico encontrado para essa especialidade."); else foreach (var mm in porEsp) Console.WriteLine($"ID: {mm.Id} | Nome: {mm.Nome} | CRM: {mm.CRM} | Esp: {mm.Especialidade}");
+                    break;
+                case "0":
+                    return;
+                default:
+                    PrintError("Opção inválida.");
+                    break;
+            }
+        }
+
+        private static void ExibirListaPacientes(System.Collections.Generic.List<Paciente> pacientes)
+        {
+            if (pacientes == null || pacientes.Count == 0)
+            {
+                PrintInfo("Nenhum paciente encontrado.");
+                return;
+            }
+
+            foreach (var p in pacientes)
+            {
+                Console.WriteLine($"ID: {p.Id} | Nome: {p.Nome} | CPF: {p.CPF} | Tel: {p.Telefone} | Status: {p.Status}");
+            }
+        }
+
         private static void ListarConsultas()
         {
             PrintHeader("Lista de Consultas Agendadas");
@@ -319,6 +421,7 @@ namespace SistemaDeConsultas
                 Console.WriteLine("2. Registrar Ausência");
                 Console.WriteLine("3. Cancelar Consulta");
                 Console.WriteLine("4. Reagendar Consulta");
+                Console.WriteLine("5. Verificar Agenda (por dia)");
                 Console.WriteLine("0. Voltar");
 
                 string opcao = Console.ReadLine() ?? "";
@@ -336,6 +439,9 @@ namespace SistemaDeConsultas
                         break;
                     case "4":
                         ReagendarConsulta();
+                        break;
+                    case "5":
+                        VerificarAgendaDia();
                         break;
                     case "0":
                         return;
@@ -355,6 +461,7 @@ namespace SistemaDeConsultas
                 Console.WriteLine("2. Listar Pacientes");
                 Console.WriteLine("3. Alterar Status do Paciente");
                 Console.WriteLine("4. Remover Paciente");
+                Console.WriteLine("5. Buscar Paciente");
                 Console.WriteLine("0. Voltar");
 
                 string opcao = Console.ReadLine() ?? "";
@@ -400,6 +507,9 @@ namespace SistemaDeConsultas
                             PrintError($"Erro: {ex.Message}");
                         }
                         break;
+                    case "5":
+                        BuscarPaciente();
+                        break;
                     case "0":
                         return;
                     default:
@@ -417,6 +527,7 @@ namespace SistemaDeConsultas
                 Console.WriteLine("1. Cadastrar Médico");
                 Console.WriteLine("2. Listar Médicos");
                 Console.WriteLine("3. Remover Médico");
+                Console.WriteLine("4. Buscar Médico");
                 Console.WriteLine("0. Voltar");
 
                 string opcao = Console.ReadLine() ?? "";
@@ -440,6 +551,9 @@ namespace SistemaDeConsultas
                         {
                             PrintError($"Erro: {ex.Message}");
                         }
+                        break;
+                    case "4":
+                        BuscarMedico();
                         break;
                     case "0":
                         return;
@@ -537,6 +651,25 @@ namespace SistemaDeConsultas
             catch (Exception ex)
             {
                 Console.WriteLine($"Erro ao reagendar: {ex.Message}");
+            }
+        }
+
+        private static void VerificarAgendaDia()
+        {
+            try
+            {
+                PrintHeader("Verificar Agenda por Dia");
+                DateTime data = LerDataHora("Data (ex: 20/12/2025): ");
+                DateTime inicio = data.Date;
+                DateTime fim = inicio.AddDays(1).AddTicks(-1);
+
+                var consultas = ConsultaRepository.ListarPorPeriodo(inicio, fim);
+                Console.WriteLine($"\nConsultas em {inicio:dd/MM/yyyy}:");
+                ExibirConsultas(consultas);
+            }
+            catch (Exception ex)
+            {
+                PrintError($"Erro ao verificar agenda: {ex.Message}");
             }
         }
 
