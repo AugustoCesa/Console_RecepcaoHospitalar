@@ -20,6 +20,6 @@ namespace SistemaDeConsultas.Models
         Agendada,
         Concluida,
         Cancelada,
-        Ausente // No-show
+        Ausente
     }
 }

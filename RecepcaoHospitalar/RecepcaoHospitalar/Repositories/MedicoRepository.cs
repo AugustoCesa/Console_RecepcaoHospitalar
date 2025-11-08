@@ -9,7 +9,6 @@ namespace SistemaDeConsultas.Repositories
         private static readonly List<Medico> _medicos = new List<Medico>();
         private static int _nextId = 1;
 
-        // RF-002
         public static Medico Adicionar(Medico medico)
         {
             medico.Id = _nextId++;

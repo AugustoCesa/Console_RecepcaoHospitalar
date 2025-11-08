@@ -189,6 +189,13 @@ namespace SistemaDeConsultas
                     return;
                 }
 
+                // Validar horário de funcionamento (07:00 às 17:30)
+                if (!AgendamentoService.ValidarHorarioConsulta(dataHoraInicio))
+                {
+                    Console.WriteLine("ERRO: O horário deve estar entre 07:00 e 17:30.");
+                    return;
+                }
+
                 // 5. Duração
                 int duracao = LerInteiro("Duração em minutos (ex: 30): ");
 
@@ -629,6 +636,13 @@ namespace SistemaDeConsultas
                 if (dataHoraInicio < DateTime.Now)
                 {
                     Console.WriteLine("A data do agendamento não pode ser no passado.");
+                    return;
+                }
+
+                // Validar horário de funcionamento (07:00 às 17:30)
+                if (!AgendamentoService.ValidarHorarioConsulta(dataHoraInicio))
+                {
+                    Console.WriteLine("ERRO: O horário deve estar entre 07:00 e 17:30.");
                     return;
                 }
 
